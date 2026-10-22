@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>íris — Atendimento Inteligente 24/7 para Hosts da Turo</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        },
+                        indigoGlow: '#4F46E5',
+                        violetGlow: '#7C3AED',
+                        accentCyan: '#06b6d4'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+            color: #F3F4F6;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.2);
+        }
+
+        /* Gradient Text & Glow Effects */
+        .gradient-text {
+            background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #9333EA 100%);
+        }
+
+        .glow-effect {
+            position: relative;
+        }
+        .glow-effect::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(135deg, #4F46E5, #7C3AED, #06b6d4);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .glow-effect:hover::before {
+            opacity: 1;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #7C3AED;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(124, 58, 237, 0.8);
+            margin-top: -6px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #374151;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Ambient Background Glows -->
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+    <div class="fixed top-1/3 right-1/4 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-10 left-1/3 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="logo.svg" alt="iris" class="h-10 w-auto">
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#recursos" class="hover:text-white transition-colors">Recursos</a>
+                <a href="#como-funciona" class="hover:text-white transition-colors">Como Funciona</a>
+                <a href="#calculadora" class="hover:text-white transition-colors">Calculadora ROI</a>
+                <a href="#planos" class="hover:text-white transition-colors">Planos</a>
+                <a href="#depoimentos" class="hover:text-white transition-colors">Depoimentos</a>
+                <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="#demo" class="text-sm font-medium text-gray-300 hover:text-white px-3 py-2 transition-colors">
+                    Entrar
+                </a>
+                <a href="#planos" class="relative group overflow-hidden rounded-xl p-[1px] font-semibold text-xs sm:text-sm">
+                    <span class="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400 rounded-xl transition-all duration-300 group-hover:opacity-90"></span>
+                    <span class="relative block px-5 py-2.5 rounded-[11px] bg-gray-950 transition-colors duration-300 group-hover:bg-opacity-80 text-white">
+                        Testar Grátis 14 Dias
+                    </span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white focus:outline-none p-2" aria-label="Menu">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-b border-gray-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#recursos" class="mobile-link block py-2 text-gray-300 hover:text-white font-medium">Recursos</a>
+            <a href="#como-funciona" class="mobile-link block py-2 text-gray-300 hover:text-white font-medium">Como Funciona</a>
+            <a href="#calculadora" class="mobile-link block py-2 text-gray-300 hover:text-white font-medium">Calculadora ROI</a>
+            <a href="#planos" class="mobile-link block py-2 text-gray-300 hover:text-white font-medium">Planos</a>
+            <a href="#depoimentos" class="mobile-link block py-2 text-gray-300 hover:text-white font-medium">Depoimentos</a>
+            <a href="#faq" class="mobile-link block py-2 text-gray-300 hover:text-white font-medium">FAQ</a>
+            <div class="pt-4 flex flex-col gap-3">
+                <a href="#planos" class="text-center w-full py-3 rounded-xl gradient-bg text-white font-semibold shadow-lg shadow-purple-600/30">
+                    Testar Grátis por 14 Dias
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Column: Copywriting & CTAs -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-8">
+                    
+                    <!-- Pill Tag -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/80 border border-purple-500/30 text-purple-300 text-xs sm:text-sm font-medium">
+                        <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span class="font-semibold text-emerald-400">Novo:</span> Integração Instantânea para Hosts da Turo
+                    </div>
+
+                    <!-- Main Headline -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+                        Atendimento <span class="gradient-text">24/7 para seus hóspedes</span> no Turo sem você mover um dedo.
+                    </h1>
+
+                    <!-- Subheadline -->
+                    <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Aumente suas avaliações 5 estrelas, automatize check-ins/check-outs e responda dúvidas dos clientes em segundos com a <strong class="text-white font-semibold">íris</strong>, sua co-piloto de inteligência artificial.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#planos" class="w-full sm:w-auto px-8 py-4 rounded-xl gradient-bg font-bold text-white shadow-xl shadow-purple-600/25 hover:shadow-purple-600/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group text-base">
+                            <span>Começar Agora Grátis</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        
+                        <a href="#demo" class="w-full sm:w-auto px-7 py-4 rounded-xl glass-panel text-gray-200 hover:text-white font-semibold border border-gray-700/60 hover:bg-gray-800/50 hover:border-gray-600 transition-all flex items-center justify-center gap-2 text-base">
+                            <i class="fa-solid fa-play text-purple-400 text-xs"></i>
+                            <span>Ver Demonstração</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Stats & Social Proof -->
+                    <div class="pt-6 border-t border-gray-800/80 flex flex-wrap items-center justify-center lg:justify-start gap-8 text-sm text-gray-400">
+                        <div class="flex items-center gap-3">
+                            <div class="flex -space-x-2">
+                                <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Host Avatar">
+                                <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Host Avatar">
+                                <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Host Avatar">
+                            </div>
+                            <span class="text-xs text-gray-300 font-medium">+500 Hosts ativos no Turo</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-amber-400 text-xs font-semibold">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <span class="text-gray-300 ml-1">4.9/5 (All-Star Hosts)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Live Demo Mockup -->
+                <div class="lg:col-span-5 relative" id="demo">
+                    <!-- Glow backdrop behind card -->
+                    <div class="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 rounded-3xl blur-xl opacity-30 animate-pulse-slow"></div>
+
+                    <!-- Chat Container Window -->
+                    <div class="relative glass-panel rounded-2xl border border-gray-700/60 shadow-2xl overflow-hidden">
+                        
+                        <!-- Window Header -->
+                        <div class="bg-gray-900/90 px-4 py-3.5 border-b border-gray-800 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <img src="face.png" alt="" class="w-9 h-9 rounded-full shrink-0 object-cover">
+                                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-gray-900"></span>
+                                </div>
+                                <div>
+                                    <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                                        <span>íris AI Assistant</span>
+                                        <span class="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono">TURO PRO</span>
+                                    </div>
+                                    <div class="text-[11px] text-gray-400">Responde em &lt; 3 segundos</div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-semibold border border-emerald-500/20">
+                                    ● Modo Ativo
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Chat Messages Display Area -->
+                        <div id="chat-box" class="p-4 space-y-3.5 h-[360px] overflow-y-auto text-xs sm:text-sm bg-gray-950/50">
+                            <!-- Timestamp -->
+                            <div class="text-center text-[10px] text-gray-500 font-mono my-1">Hoje, 02:14 AM (Madrugada)</div>
+
+                            <!-- Guest Message -->
+                            <div class="flex items-start gap-2.5 justify-end">
+                                <div class="bg-indigo-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[82%] shadow-md">
+                                    <p class="text-xs font-semibold text-indigo-200 mb-0.5">Carlos (Hóspede Turo)</p>
+                                    <p>Olá! Meu voo atrasou e vou chegar às 02:30 AM. Onde exatamente está a chave do BMW X3 no estacionamento do aeroporto?</p>
+                                </div>
+                                <div class="w-7 h-7 rounded-full bg-gray-700 flex items-center justify-center text-xs font-bold text-gray-300">
+                                    C
+                                </div>
+                            </div>
+
+                            <!-- íris Bot Response -->
+                            <div class="flex items-start gap-2.5">
+                                <img src="face.png" alt="" class="w-7 h-7 rounded-full shrink-0 object-cover">
+                                <div class="bg-gray-800/90 border border-gray-700/80 text-gray-100 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-md space-y-1.5">
+                                    <div class="flex items-center justify-between text-[11px] text-purple-300 font-medium">
+                                        <span>íris Assistant</span>
+                                        <span class="text-[9px] text-gray-400 font-mono">02:14 AM</span>
+                                    </div>
+                                    <p>Sem problemas, Carlos! Vi que seu voo deu uma leve atrasada. Não se preocupe, o check-in é 100% autônomo.</p>
+                                    <p class="text-gray-300">📍 O BMW X3 está na vaga <strong>B-12</strong> do Setor Azul. A caixinha de chave (Lockbox) está no vidro traseiro esquerdo.</p>
+                                    <p class="text-purple-300 font-mono text-[11px] bg-purple-950/60 p-1.5 rounded border border-purple-800/50">🔑 Código da caixa: 8492</p>
+                                    <p class="text-gray-400 text-[11px]">Tenha uma excelente viagem! Qualquer dúvida, estou por aqui 24h.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Trigger Buttons (Interactive Demo) -->
+                        <div class="p-3 bg-gray-900 border-t border-gray-800">
+                            <p class="text-[11px] text-gray-400 mb-2 font-medium flex items-center gap-1.5">
+                                <i class="fa-solid fa-hand-pointer text-purple-400"></i> Clique para simular perguntas reais dos hóspedes:
+                            </p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="triggerDemo('extensao')" class="demo-btn text-left p-2 rounded-lg bg-gray-800 hover:bg-purple-900/40 border border-gray-700 hover:border-purple-500/50 text-gray-300 text-xs transition-all">
+                                    ⏳ "Posso estender o aluguel?"
+                                </button>
+                                <button onclick="triggerDemo('gasolina')" class="demo-btn text-left p-2 rounded-lg bg-gray-800 hover:bg-purple-900/40 border border-gray-700 hover:border-purple-500/50 text-gray-300 text-xs transition-all">
+                                    ⛽ "Preciso devolver de tanque cheio?"
+                                </button>
+                                <button onclick="triggerDemo('bluetooth')" class="demo-btn text-left p-2 rounded-lg bg-gray-800 hover:bg-purple-900/40 border border-gray-700 hover:border-purple-500/50 text-gray-300 text-xs transition-all">
+                                    🎵 "Como conectar o Bluetooth?"
+                                </button>
+                                <button onclick="triggerDemo('checkout')" class="demo-btn text-left p-2 rounded-lg bg-gray-800 hover:bg-purple-900/40 border border-gray-700 hover:border-purple-500/50 text-gray-300 text-xs transition-all">
+                                    🔑 "Onde deixo a chave na entrega?"
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- KEY FEATURES GRID -->
+    <section id="recursos" class="py-20 relative bg-gray-950/60 border-t border-b border-gray-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs uppercase font-extrabold tracking-widest text-purple-400">Recursos Exclusivos</h2>
+                <p class="text-3xl sm:text-4xl font-bold text-white">Tudo o que seu negócio de Turo precisa para escalar</p>
+                <p class="text-gray-400 text-base">
+                    Elimine o estresse de responder mensagens de madrugada, evite cancelamentos por demora e garanta o selo All-Star Host.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Feature 1 -->
+                <div class="glass-card p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-purple-900/50 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl mb-5">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Resposta Instantânea 24/7</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        A íris responde no primeiro segundo, independente da hora da noite. Nunca mais perca pontos por tempo de resposta lento.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-900/50 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xl mb-5">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Suporte Multilíngue</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Atenda turistas e viajantes internacionais em inglês, espanhol, francês ou mais de 30 idiomas nativamente.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-900/50 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl mb-5">
+                        <i class="fa-solid fa-car"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Guias por Veículo</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Cadastre regras específicas para cada carro da sua frota: onde pegar o toll tag, tipo de combustível, conexão Bluetooth e pedágios.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-amber-900/50 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-5">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Foco em All-Star Host</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Instruções claras e atendimento atencioso garantem avaliações de 5 estrelas automáticas e hóspedes recorrentes.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section id="como-funciona" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <h2 class="text-xs uppercase font-extrabold tracking-widest text-purple-400">Simplicidade Extrema</h2>
+                <p class="text-3xl sm:text-4xl font-bold text-white">Como a íris funciona na prática</p>
+                <p class="text-gray-400 text-base">Configure sua conta em menos de 5 minutos e deixe o atendimento no piloto automático.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 relative">
+                
+                <!-- Connector Line for Desktop -->
+                <div class="hidden md:block absolute top-1/2 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-purple-500/20 via-indigo-500/40 to-purple-500/20 -translate-y-8 -z-10"></div>
+
+                <!-- Step 1 -->
+                <div class="glass-panel p-8 rounded-2xl text-center space-y-4 border border-gray-800 relative">
+                    <div class="w-14 h-14 rounded-2xl gradient-bg mx-auto flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-purple-600/30">
+                        1
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Conecte sua conta</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Integre a íris de forma segura às suas mensagens do Turo com apenas alguns cliques. Sem necessidade de conhecimentos técnicos.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-panel p-8 rounded-2xl text-center space-y-4 border border-gray-800 relative">
+                    <div class="w-14 h-14 rounded-2xl gradient-bg mx-auto flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-purple-600/30">
+                        2
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Defina as regras do carro</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Informe local das chaves (Lockbox), regras de combustível, pedágios e políticas de atraso. A íris aprende tudo instantaneamente.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-panel p-8 rounded-2xl text-center space-y-4 border border-gray-800 relative">
+                    <div class="w-14 h-14 rounded-2xl gradient-bg mx-auto flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-purple-600/30">
+                        3
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Relaxar & Lucrar</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Sua íris responde a todas as dúvidas, guia check-ins perfeitos e avisa você no WhatsApp apenas em caso de urgências graves.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE ROI / SAVINGS CALCULATOR -->
+    <section id="calculadora" class="py-20 bg-gray-950/80 border-t border-b border-gray-800/80 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-block px-3 py-1 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-800 text-xs font-semibold uppercase tracking-wider">
+                        Simulador de Impacto
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                        Quanto tempo e dinheiro a íris vai economizar para você?
+                    </h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Hosts no Turo gastam em média de 3 a 5 horas por carro mensalmente respondendo às mesmas perguntas repetitivas. Faça a simulação para a sua frota.
+                    </p>
+                    
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                            <span>Redução imediata na carga de trabalho semanal</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                            <span>Maior taxa de conversão de reservas com respostas rápidas</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                            <span>Menos estresse durante a madrugada e fins de semana</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Calculator Card -->
+                <div class="lg:col-span-7 glass-panel p-6 sm:p-8 rounded-3xl border border-gray-700/80 shadow-2xl relative">
+                    
+                    <div class="space-y-8">
+                        
+                        <!-- Slider 1: Cars Number -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-sm font-semibold text-gray-200">Quantidade de Carros na Frota:</label>
+                                <span id="cars-val" class="text-xl font-extrabold text-purple-400 font-mono">3 carros</span>
+                            </div>
+                            <input type="range" id="cars-slider" min="1" max="25" value="3" class="w-full">
+                            <div class="flex justify-between text-[11px] text-gray-500 mt-1">
+                                <span>1 carro</span>
+                                <span>10 carros</span>
+                                <span>25+ carros</span>
+                            </div>
+                        </div>
+
+                        <!-- Slider 2: Hours spent per week -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-sm font-semibold text-gray-200">Horas gastas com atendimento por semana:</label>
+                                <span id="hours-val" class="text-xl font-extrabold text-purple-400 font-mono">10 horas</span>
+                            </div>
+                            <input type="range" id="hours-slider" min="2" max="40" value="10" class="w-full">
+                            <div class="flex justify-between text-[11px] text-gray-500 mt-1">
+                                <span>2 hrs</span>
+                                <span>20 hrs</span>
+                                <span>40 hrs</span>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Output Cards -->
+                        <div class="grid sm:grid-cols-2 gap-4 pt-4 border-t border-gray-800">
+                            
+                            <div class="bg-gray-900/90 p-4 rounded-2xl border border-purple-500/20">
+                                <span class="text-xs text-gray-400 font-medium block mb-1">Tempo Economizado por Mês</span>
+                                <div class="flex items-baseline gap-1">
+                                    <span id="saved-hours" class="text-3xl font-black text-white gradient-text">34</span>
+                                    <span class="text-sm text-purple-300 font-semibold">horas/mês</span>
+                                </div>
+                                <span class="text-[10px] text-gray-500 mt-1 block">Recupere seus fins de semana</span>
+                            </div>
+
+                            <div class="bg-gray-900/90 p-4 rounded-2xl border border-emerald-500/20">
+                                <span class="text-xs text-gray-400 font-medium block mb-1">Estimativa de Aumento nas Avaliações</span>
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-3xl font-black text-emerald-400">+28%</span>
+                                    <span class="text-xs text-emerald-300">Reviews 5★</span>
+                                </div>
+                                <span class="text-[10px] text-gray-500 mt-1 block">Graças à velocidade de resposta</span>
+                            </div>
+
+                        </div>
+
+                        <div class="text-center pt-2">
+                            <a href="#planos" class="inline-block w-full sm:w-auto px-8 py-3.5 rounded-xl gradient-bg font-bold text-white text-sm shadow-lg shadow-purple-600/30 hover:scale-[1.02] transition-transform">
+                                Automatizar Minha Frota Agora
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section id="planos" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                <h2 class="text-xs uppercase font-extrabold tracking-widest text-purple-400">Planos & Preços</h2>
+                <p class="text-3xl sm:text-4xl font-bold text-white">Investimento que se paga nos primeiros dias</p>
+                <p class="text-gray-400 text-base">Sem fidelidade, cancele quando quiser. Todos os planos incluem 14 dias de teste grátis.</p>
+
+                <!-- Billing Toggle -->
+                <div class="flex items-center justify-center gap-4 pt-4">
+                    <span class="text-sm font-medium text-gray-300">Mensal</span>
+                    <button id="pricing-toggle" class="w-14 h-8 rounded-full bg-purple-900/80 p-1 border border-purple-500/40 relative transition-colors">
+                        <div id="toggle-circle" class="w-6 h-6 rounded-full bg-purple-400 transition-transform duration-300"></div>
+                    </button>
+                    <span class="text-sm font-medium text-gray-300 flex items-center gap-1.5">
+                        Anual
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] px-2 py-0.5 rounded-full font-bold">20% OFF</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Pricing Grid -->
+            <div class="grid md:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- Starter Plan -->
+                <div class="glass-panel p-8 rounded-3xl border border-gray-800 flex flex-col justify-between relative hover:border-gray-700 transition-all">
+                    <div>
+                        <div class="text-lg font-bold text-white mb-1">Starter</div>
+                        <p class="text-xs text-gray-400 mb-6">Ideal para hosts iniciantes com 1 a 2 veículos.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-4xl font-extrabold text-white price-val-starter">$29</span>
+                            <span class="text-gray-400 text-sm font-normal">/mês</span>
+                        </div>
+
+                        <ul class="space-y-3.5 text-xs sm:text-sm text-gray-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Até <strong>2 veículos</strong> cadastrados</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Atendimento de dúvidas 24/7</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Check-in e Check-out automatizados</span>
+                            </li>
+                            <li class="flex items-center gap-2.5 text-gray-500">
+                                <i class="fa-solid fa-xmark text-gray-600"></i>
+                                <span>Suporte prioritário via WhatsApp</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="w-full py-3.5 rounded-xl border border-purple-500/30 hover:border-purple-500 text-purple-300 hover:text-white text-center font-bold text-sm transition-all">
+                        Começar Teste Grátis
+                    </a>
+                </div>
+
+                <!-- Pro Plan (Popular) -->
+                <div class="glass-panel p-8 rounded-3xl border-2 border-purple-500 flex flex-col justify-between relative shadow-2xl shadow-purple-600/20 transform md:-translate-y-2">
+                    <!-- Badge -->
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[11px] uppercase tracking-wider font-extrabold px-4 py-1 rounded-full shadow">
+                        Mais Popular
+                    </div>
+
+                    <div>
+                        <div class="text-lg font-bold text-white mb-1">Pro Host</div>
+                        <p class="text-xs text-gray-400 mb-6">Para quem deseja escalar a frota no Turo.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-4xl font-extrabold text-white price-val-pro">$69</span>
+                            <span class="text-gray-400 text-sm font-normal">/mês</span>
+                        </div>
+
+                        <ul class="space-y-3.5 text-xs sm:text-sm text-gray-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Até <strong>10 veículos</strong> cadastrados</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Atendimento 24/7 em +30 idiomas</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Respostas personalizadas por carro</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Avisos de urgência no WhatsApp do Host</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="w-full py-3.5 rounded-xl gradient-bg text-white text-center font-bold text-sm shadow-lg shadow-purple-600/30 hover:scale-[1.02] transition-transform">
+                        Experimente Grátis por 14 Dias
+                    </a>
+                </div>
+
+                <!-- Fleet / Frota Plan -->
+                <div class="glass-panel p-8 rounded-3xl border border-gray-800 flex flex-col justify-between relative hover:border-gray-700 transition-all">
+                    <div>
+                        <div class="text-lg font-bold text-white mb-1">Fleet / Frota</div>
+                        <p class="text-xs text-gray-400 mb-6">Operações profissionais e locadoras comerciais.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-4xl font-extrabold text-white price-val-fleet">$149</span>
+                            <span class="text-gray-400 text-sm font-normal">/mês</span>
+                        </div>
+
+                        <ul class="space-y-3.5 text-xs sm:text-sm text-gray-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span><strong>Carros Ilimitados</strong></span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Gerente de conta dedicado</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Ajuste personalizado da IA com regras da frota</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-purple-400"></i>
+                                <span>Suporte telefônico e via WhatsApp 24h</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="w-full py-3.5 rounded-xl border border-gray-700 hover:border-gray-500 text-gray-200 hover:text-white text-center font-bold text-sm transition-all">
+                        Falar com Consultor
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="depoimentos" class="py-20 bg-gray-950/60 border-t border-b border-gray-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <h2 class="text-xs uppercase font-extrabold tracking-widest text-purple-400">Depoimentos Reais</h2>
+                <p class="text-3xl sm:text-4xl font-bold text-white">O que dizem os Hosts que usam a íris</p>
+                <p class="text-gray-400 text-base">Hosts All-Star que recuperaram suas noites de sono e escalaram suas frotas.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                
+                <!-- Review 1 -->
+                <div class="glass-panel p-6 rounded-2xl border border-gray-800 flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-xs gap-1">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed italic">
+                            "A íris respondeu uma dúvida sobre o Lockbox às 3:40 da manhã para um hóspede que acabou de pousar. Se fosse eu, teria perdido a mensagem ou acordado irritado. Vale cada centavo!"
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-800/80">
+                        <img class="w-10 h-10 rounded-full object-cover border border-purple-500/40" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" alt="Avatar">
+                        <div>
+                            <div class="text-xs font-bold text-white">Juliana M.</div>
+                            <div class="text-[11px] text-gray-400">8 Carros em Orlando, FL</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="glass-panel p-6 rounded-2xl border border-gray-800 flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-xs gap-1">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed italic">
+                            "Minhas avaliações subiram para 4.99 e consegui o status de All-Star Host em 2 meses. Os clientes adoram a velocidade da resposta e a precisão do check-in autônomo."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-800/80">
+                        <img class="w-10 h-10 rounded-full object-cover border border-purple-500/40" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80" alt="Avatar">
+                        <div>
+                            <div class="text-xs font-bold text-white">Ricardo S.</div>
+                            <div class="text-[11px] text-gray-400">14 Carros em Miami, FL</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="glass-panel p-6 rounded-2xl border border-gray-800 flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-xs gap-1">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed italic">
+                            "Atendo muitos turistas franceses e alemães em Miami. A íris responde no idioma deles perfeitamente. Nunca mais tive mal-entendidos sobre o SunPass ou devolução do veículo."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-800/80">
+                        <img class="w-10 h-10 rounded-full object-cover border border-purple-500/40" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=120&auto=format&fit=crop&q=80" alt="Avatar">
+                        <div>
+                            <div class="text-xs font-bold text-white">Camila B.</div>
+                            <div class="text-[11px] text-gray-400">4 Carros em Los Angeles, CA</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION (Accordion) -->
+    <section id="faq" class="py-20 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-xs uppercase font-extrabold tracking-widest text-purple-400">Dúvidas Frequentes</h2>
+                <p class="text-3xl sm:text-4xl font-bold text-white">Perguntas Frequentes</p>
+            </div>
+
+            <div class="space-y-4" id="faq-accordion">
+                
+                <!-- FAQ Item 1 -->
+                <div class="glass-panel rounded-2xl border border-gray-800 overflow-hidden">
+                    <button class="faq-btn w-full p-5 text-left font-semibold text-white flex justify-between items-center gap-4 hover:bg-gray-800/40 transition-colors">
+                        <span>A íris se integra com a conta do Turo diretamente?</span>
+                        <i class="fa-solid fa-chevron-down text-purple-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-gray-800/50 pt-3">
+                        Sim! A íris foi projetada para se integrar de maneira transparente ao seu fluxo de mensagens do Turo. A configuração leva menos de 5 minutos e você mantém controle total da sua conta a qualquer momento.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="glass-panel rounded-2xl border border-gray-800 overflow-hidden">
+                    <button class="faq-btn w-full p-5 text-left font-semibold text-white flex justify-between items-center gap-4 hover:bg-gray-800/40 transition-colors">
+                        <span>E se o hóspede fizer uma pergunta muito complexa ou um acidente?</span>
+                        <i class="fa-solid fa-chevron-down text-purple-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-gray-800/50 pt-3">
+                        Se a íris identificar uma emergência (ex: acidente, avaria grave ou sinistro), ela tranquiliza o hóspede e envia imediatamente uma notificação de alta prioridade via SMS / WhatsApp para você assumir a conversa.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="glass-panel rounded-2xl border border-gray-800 overflow-hidden">
+                    <button class="faq-btn w-full p-5 text-left font-semibold text-white flex justify-between items-center gap-4 hover:bg-gray-800/40 transition-colors">
+                        <span>Como a íris sabe onde está a chave ou as regras do meu carro?</span>
+                        <i class="fa-solid fa-chevron-down text-purple-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-gray-800/50 pt-3">
+                        No painel da íris, você cadastra o perfil do seu veículo em um formulário simples (Local da chave, código do Lockbox, tipo de gasolina, SunPass/Transponder, regras de animais e fumantes). A íris consulta essas regras em tempo real antes de responder ao hóspede.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="glass-panel rounded-2xl border border-gray-800 overflow-hidden">
+                    <button class="faq-btn w-full p-5 text-left font-semibold text-white flex justify-between items-center gap-4 hover:bg-gray-800/40 transition-colors">
+                        <span>Posso testar sem colocar meu cartão de crédito?</span>
+                        <i class="fa-solid fa-chevron-down text-purple-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-gray-800/50 pt-3">
+                        Com certeza! Oferecemos 14 dias de teste 100% grátis e sem compromisso. Você não precisa cadastrar cartão para começar a usar.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CTA BANNER -->
+    <section class="py-16 relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative glass-panel rounded-3xl p-8 sm:p-12 border border-purple-500/30 text-center space-y-6 overflow-hidden">
+                <div class="absolute inset-0 gradient-bg opacity-10 -z-10"></div>
+                
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                    Pronto para transformar sua experiência como Host no Turo?
+                </h2>
+                <p class="text-gray-300 text-base max-w-2xl mx-auto">
+                    Junte-se a centenas de Hosts All-Star que automatizaram seu atendimento com a íris e ganharam tempo livre de verdade.
+                </p>
+                <div class="pt-2">
+                    <a href="#planos" class="inline-block px-9 py-4 rounded-xl gradient-bg font-bold text-white shadow-xl shadow-purple-600/30 hover:scale-[1.03] transition-transform text-base">
+                        Começar Teste Grátis de 14 Dias
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-950 border-t border-gray-800/80 py-12 text-gray-400 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                
+                <!-- Col 1: Brand -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <img src="logo.svg" alt="iris" class="h-8 w-auto">
+                    </div>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        Assistente de Inteligência Artificial para hosts da plataforma Turo. Automatize check-in, suporte e avaliações.
+                    </p>
+                </div>
+
+                <!-- Col 2: Links -->
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Navegação</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#recursos" class="hover:text-white transition-colors">Recursos</a></li>
+                        <li><a href="#como-funciona" class="hover:text-white transition-colors">Como Funciona</a></li>
+                        <li><a href="#calculadora" class="hover:text-white transition-colors">Calculadora ROI</a></li>
+                        <li><a href="#planos" class="hover:text-white transition-colors">Planos</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Legal -->
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Legal & Privacidade</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition-colors">Termos de Uso</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Política de Privacidade</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Segurança dos Dados</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Social -->
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Contato & Redes</h4>
+                    <div class="flex gap-3 text-base text-gray-400 mb-3">
+                        <a href="#" class="hover:text-purple-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-purple-400 transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="hover:text-purple-400 transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                    <span class="text-xs text-gray-500 block">suporte@iris-assistant.ai</span>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-gray-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                <p>© 2026 íris AI Inc. Todos os direitos reservados. íris não é afiliada oficialmente à Turo Inc.</p>
+                <div class="flex gap-4">
+                    <span>Feito para Hosts da Turo 🚗⚡</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 2. FAQ Accordion Functionality
+        const faqBtns = document.querySelectorAll('.faq-btn');
+        faqBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                
+                // Toggle open/close
+                const isOpen = !content.classList.contains('hidden');
+                
+                // Close all
+                document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
+                document.querySelectorAll('.faq-btn i').forEach(i => i.classList.remove('rotate-180'));
+
+                if (!isOpen) {
+                    content.classList.remove('hidden');
+                    icon.classList.add('rotate-180');
+                }
+            });
+        });
+
+        // 3. Interactive Chat Widget Scripted Responses
+        const chatBox = document.getElementById('chat-box');
+
+        const demoResponses = {
+            extensao: {
+                guest: "Olá, consiga estender a viagem até domingo às 18h?",
+                bot: "Olá! Verifiquei o calendário do carro e o BMW X3 está disponível para essa data! 🚀 Você pode solicitar a extensão diretamente pelo app do Turo e eu aprovarei na hora."
+            },
+            gasolina: {
+                guest: "Preciso devolver o carro com tanque cheio?",
+                bot: "Sim, por favor! O carro é entregue com tanque cheio e deve ser devolvido na mesma quantidade. Se preferir, você também pode adquirir o opcional Prepaid EV/Gas pelo app."
+            },
+            bluetooth: {
+                guest: "Como conecto o meu celular no Bluetooth da multimídia?",
+                bot: "Na tela principal, toque em 'Mídia' > 'Dispositivos' > 'Adicionar Novo'. Procure por 'BMW_X3_Turo' no seu celular. O PIN de pareamento padrão é 0000."
+            },
+            checkout: {
+                guest: "Onde devo deixar a chave quando devolver no aeroporto?",
+                bot: "Estacione no mesmo setor de desembarque (Setor Azul). Guarde a chave dentro da caixa trancada (Lockbox) no vidro traseiro, embaralhe o código e envie uma foto do local no app Turo!"
+            }
+        };
+
+        function triggerDemo(type) {
+            const data = demoResponses[type];
+            if (!data) return;
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Append Guest Message
+            const guestHtml = `
+                <div class="flex items-start gap-2.5 justify-end animate-fadeIn">
+                    <div class="bg-indigo-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[82%] shadow-md">
+                        <p class="text-xs font-semibold text-indigo-200 mb-0.5">Carlos (Hóspede Turo)</p>
+                        <p>${data.guest}</p>
+                    </div>
+                    <div class="w-7 h-7 rounded-full bg-gray-700 flex items-center justify-center text-xs font-bold text-gray-300">C</div>
+                </div>
+            `;
+            chatBox.insertAdjacentHTML('beforeend', guestHtml);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Typing Indicator
+            const typingHtml = `
+                <div id="typing-indicator" class="flex items-start gap-2.5">
+                    <img src="face.png" alt="" class="w-7 h-7 rounded-full shrink-0 object-cover">
+                    <div class="bg-gray-800 text-gray-400 px-4 py-2.5 rounded-2xl rounded-tl-none text-xs flex items-center gap-1.5">
+                        <span class="animate-bounce">●</span>
+                        <span class="animate-bounce delay-100">●</span>
+                        <span class="animate-bounce delay-200">●</span>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                chatBox.insertAdjacentHTML('beforeend', typingHtml);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 300);
+
+            // Append Bot Response after simulated delay
+            setTimeout(() => {
+                const typing = document.getElementById('typing-indicator');
+                if (typing) typing.remove();
+
+                const botHtml = `
+                    <div class="flex items-start gap-2.5 animate-fadeIn">
+                        <img src="face.png" alt="" class="w-7 h-7 rounded-full shrink-0 object-cover">
+                        <div class="bg-gray-800/90 border border-gray-700/80 text-gray-100 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-md space-y-1">
+                            <div class="flex items-center justify-between text-[11px] text-purple-300 font-medium">
+                                <span>íris Assistant</span>
+                                <span class="text-[9px] text-gray-400 font-mono">${timeStr}</span>
+                            </div>
+                            <p>${data.bot}</p>
+                        </div>
+                    </div>
+                `;
+                chatBox.insertAdjacentHTML('beforeend', botHtml);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1200);
+        }
+
+        // 4. ROI Calculator Live Updating
+        const carsSlider = document.getElementById('cars-slider');
+        const hoursSlider = document.getElementById('hours-slider');
+        const carsVal = document.getElementById('cars-val');
+        const hoursVal = document.getElementById('hours-val');
+        const savedHours = document.getElementById('saved-hours');
+
+        function updateROI() {
+            const cars = parseInt(carsSlider.value);
+            const hoursPerWeek = parseInt(hoursSlider.value);
+            
+            carsVal.textContent = `${cars} ${cars === 1 ? 'carro' : 'carros'}`;
+            hoursVal.textContent = `${hoursPerWeek} horas`;
+
+            // Saved hours per month formula calculation:
+            // ~85% of guest support time is automated by íris
+            const totalMonthlyHours = hoursPerWeek * 4.3;
+            const saved = Math.round(totalMonthlyHours * 0.85);
+
+            savedHours.textContent = saved;
+        }
+
+        carsSlider.addEventListener('input', updateROI);
+        hoursSlider.addEventListener('input', updateROI);
+
+        // 5. Pricing Toggle (Monthly vs Annual)
+        const pricingToggle = document.getElementById('pricing-toggle');
+        const toggleCircle = document.getElementById('toggle-circle');
+        let isAnnual = false;
+
+        const prices = {
+            monthly: { starter: '$29', pro: '$69', fleet: '$149' },
+            annual: { starter: '$23', pro: '$55', fleet: '$119' }
+        };
+
+        pricingToggle.addEventListener('click', () => {
+            isAnnual = !isAnnual;
+            if (isAnnual) {
+                toggleCircle.classList.add('translate-x-6');
+                document.querySelector('.price-val-starter').textContent = prices.annual.starter;
+                document.querySelector('.price-val-pro').textContent = prices.annual.pro;
+                document.querySelector('.price-val-fleet').textContent = prices.annual.fleet;
+            } else {
+                toggleCircle.classList.remove('translate-x-6');
+                document.querySelector('.price-val-starter').textContent = prices.monthly.starter;
+                document.querySelector('.price-val-pro').textContent = prices.monthly.pro;
+                document.querySelector('.price-val-fleet').textContent = prices.monthly.fleet;
+            }
+        });
+    </script>
+</body>
+</html>
